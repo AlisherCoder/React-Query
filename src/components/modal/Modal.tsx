@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Form, Input, Button } from 'antd';
 import type { FormProps } from 'antd';
 import type { DataType } from '../../pages/home';
+import { useCreateUser } from '../../pages/home/service/mutation/useCreateUser';
 type FieldType = {
   name: string;
   birthday: string;
@@ -19,12 +20,14 @@ const ModalWrapper: React.FC<Props> = ({
   handleCancel,
   updateUser,
 }) => {
+  const { mutate } = useCreateUser();
+
   const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-    // if (updateUser) {
-    //   editUser({ id: updateUser.id, body: values }).then(() => handleCancel());
-    // } else {
-    //   createUser(values).then(() => handleCancel());
-    // }
+    if (updateUser) {
+      // editUser({ id: updateUser.id, body: values }).then(() => handleCancel());
+    } else {
+      mutate(values);
+    }
   };
 
   return (
